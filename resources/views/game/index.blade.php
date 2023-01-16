@@ -28,6 +28,9 @@
                                     price
                                 </th>
                                 <th scope="col" class="px-6 py-3">
+                                    Status
+                                </th>
+                                <th scope="col" class="px-6 py-3">
                                     Description
                                 </th>
                                 <th scope="col" class="px-6 py-3">
@@ -36,7 +39,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($games as $game)  
+                        @forelse ($games as $game)  
                             <tr class="bg-white border-b">
                                 <td class="px-6 py-4">
                                     {{$loop->iteration}}
@@ -47,6 +50,13 @@
                                 </th>
                                 <td class="px-6 py-4">
                                     {{$game->price}}
+                                </td>
+                                <td class="px-6 py-4">
+                                    @if ($game->status === 0)
+                                    <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Available</span>
+                                    @else
+                                    <span class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Borrowed</span>
+                                    @endif
                                 </td>
                                 <td class="px-6 py-4">
                                     {{$game->description}}
@@ -60,7 +70,11 @@
                                     </form>
                                 </td>
                             </tr>
-                            @endforeach
+                        @empty
+                            <tr>
+                                <td class="px-6 py-4" colspan="5" align="center" >No data</td>
+                            </tr>
+                        @endforelse
                         </tbody>
                     </table>
                 </div>

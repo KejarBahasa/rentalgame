@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\LoanController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,9 @@ Route::middleware('auth')->group(function () {
 
     //games
     Route::resource('game', GameController::class);
+
+    //loans
+    Route::resource('loan', LoanController::class);
 });
 
 
