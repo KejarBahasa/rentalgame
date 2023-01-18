@@ -1,7 +1,7 @@
 <x-app-layout>
   <x-slot name="header">
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-          {{ __('Loans') }}
+          {{ __('Transaction') }}
       </h2>
   </x-slot>
 
@@ -15,9 +15,6 @@
                           <tr>
                               <th scope="col" class="px-6 py-3">
                                   No
-                              </th>
-                              <th scope="col" class="px-6 py-3">
-                                  Borrower
                               </th>
                               <th scope="col" class="px-6 py-3">
                                   Game
@@ -36,31 +33,35 @@
                             <td class="px-6 py-4">
                                 {{$loop->iteration}}
                             </td>
-                            <th scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                {{$loan->user->name}}
-                            </th>
                             <td class="px-6 py-4">
                                 {{$loan->game->name}}
                             </td>
                             <td class="px-6 py-4">
-                                @if($loan->paid === 1)
-                                  @if ($loan->status === 1)
-                                  <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Returned</span>
-                                  @else
-                                  <span class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Not Returned</span>
-                                  @endif
+                              @if($loan->paid === 1)
+                                @if ($loan->status === 1)
+                                <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Returned</span>
                                 @else
-                                <span class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Not Paid</span>
+                                <span class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Not Returned</span>
                                 @endif
-                              </td>
+                              @else
+                              <span class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Not Paid</span>
+                              @endif
+                            </td>
                            
                             <td class="px-6 py-4 ">
-                                <form action="{{route('loan.update', $loan->id)}}" method="post">
+                              @if($loan->paid === 1)
+                                @if ($loan->status === 1)
+                                <span class="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Clear</span>
+                                @else
+                                <form action="{{route('transaction.update', $loan->id)}}" method="post">
                                   @csrf
                                   @method('patch')
-                                  <button type="submit" onclick="return confirm('Are you sure?')" class="font-medium text-green-600 hover:underline">Selesai</button>
-                              </form>
+                                  <button type="submit" onclick="return confirm('Are you sure?')" class="font-medium text-green-600 hover:underline">Return</button>
+                                </form>
+                                @endif
+                              @else
+                                <a href="https://wa.me/62811826151?text=Mau+Bayar+dong+orderan+rental" target="_blank"class="font-medium text-green-600 hover:underline">Pay</a>
+                              @endif
                             </td>
                         </tr>
                     @empty

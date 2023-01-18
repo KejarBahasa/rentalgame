@@ -82,15 +82,9 @@ class LoanController extends Controller
         try {
             $loan = Loan::find($id);
 
-            $game = Game::find($loan->game_id);
-
             $loan->update([
-                'status' => 1,
+                'paid' => 1,
             ]);
-
-            $game->update([
-                'status' => 0,
-            ]);            
 
             return redirect()->route('loan.index')->with('success', 'Success added loan account');
         } catch(Exception $e){

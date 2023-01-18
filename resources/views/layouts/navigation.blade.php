@@ -15,12 +15,19 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    @hasrole('admin')
                     <x-nav-link :href="route('game.index')" :active="request()->routeIs('game*')">
                         {{ __('Games') }}
                     </x-nav-link>
                     <x-nav-link :href="route('loan.index')" :active="request()->routeIs('loan*')">
                         {{ __('Loan') }}
                     </x-nav-link>
+                    @else
+                    <x-nav-link :href="route('transaction.index')" :active="request()->routeIs('transaction*')">
+                        {{ __('Transaction') }}
+                    </x-nav-link>
+                    @endhasrole
                 </div>
             </div>
 

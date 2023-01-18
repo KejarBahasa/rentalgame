@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Game;
+use App\Models\Loan;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class DashboardController extends Controller
+class TransactionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +17,9 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        $games = Game::where('status', 0)->get();
+        $loans = Loan::with('game:id,name,price')->where('user_id', Auth::user()->id)->get();
 
-        return view('dashboard', compact('games'));
+        return view('transaction.index', compact('loans'));
     }
 
     /**
@@ -69,9 +72,26 @@ class DashboardController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update($id)
     {
-        //
+        try {
+            $loan = Loan::find($id);
+
+            $game = Game::find($loan->game_id);
+
+            $loan->update([
+                'status' => 1,
+            ]);
+
+            $game->update([
+                'status' => 0,
+            ]);            
+
+            return redirect()->route('transaction.index')->with('success', 'Success added transaction account');
+        } catch(Exception $e){
+            
+            return redirect()->route('transaction.index')->with('error', $e->getMessage());
+        }
     }
 
     /**
