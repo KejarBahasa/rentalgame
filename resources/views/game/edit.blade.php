@@ -17,7 +17,7 @@
               </header>
           
           
-              <form method="post" action="{{ route('game.update', $game->id) }}" class="mt-6 space-y-6">
+              <form method="post" action="{{ route('game.update', $game->id) }}" class="mt-6 space-y-6" enctype="multipart/form-data">
                   @csrf
                   @method('patch')
           
@@ -31,6 +31,13 @@
                     <x-input-label for="price" :value="__('Price')" />
                     <x-text-input id="price" name="price" type="number" class="mt-1 block w-full" required autofocus autocomplete="price" :value="$game->price"/>
                     <x-input-error class="mt-2" :messages="$errors->get('price')" />
+                  </div>
+
+                  <div>
+                    <x-input-label for="photo" :value="__('Photo')" />
+                    <x-text-input id="photo" name="photo" type="file" class="mt-1 block w-full" required autofocus />
+                    <x-input-error class="mt-2" :messages="'*abaikan jika tidak ingin mengganti photo'" />
+                    <x-input-error class="mt-2" :messages="$errors->get('photo')" />
                   </div>
 
                   <div>

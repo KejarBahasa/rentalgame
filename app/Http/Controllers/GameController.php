@@ -73,7 +73,9 @@ class GameController extends Controller
      */
     public function show($id)
     {
-        
+        $game = Game::findOrFail($id);
+
+        return view('game.show', compact('game'));
     }
 
     /**
@@ -105,12 +107,17 @@ class GameController extends Controller
             'name' => 'required',
             'price' => 'required|numeric',
             'description' => 'required',
+            'photo' => 'required|mimes:png,jpg,jpeg'
         ]);
 
         try {
             $game = Game::findOrFail($id);
 
-            $game->update($request->except('token'));
+            $fileName = 'Game-'.time().'.'.$request->photo->extension();  
+     
+            $request->photo->move(public_path('uploads'), $fileName);
+
+            $game->update(array_merge($request->except('token', 'photo'), ['photo' => $fileName]));
 
             return redirect()->route('game.index')->with('success', 'updated success');
         } catch (Exception $e){

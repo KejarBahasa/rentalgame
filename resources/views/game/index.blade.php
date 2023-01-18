@@ -22,7 +22,7 @@
                                     No
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    Game name
+                                    Game
                                 </th>
                                 <th scope="col" class="px-6 py-3">
                                     price
@@ -31,16 +31,13 @@
                                     Status
                                 </th>
                                 <th scope="col" class="px-6 py-3">
-                                    Description
-                                </th>
-                                <th scope="col" class="px-6 py-3">
                                     Action
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                         @forelse ($games as $game)  
-                            <tr class="bg-white border-b">
+                            <tr class="bg-white border-b hover:bg-gray-50 hover:cursor-pointer" onclick="window.location='{{route('game.show', $game->id)}}'">
                                 <td class="px-6 py-4">
                                     {{$loop->iteration}}
                                 </td>
@@ -57,9 +54,6 @@
                                     @else
                                     <span class="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded">Borrowed</span>
                                     @endif
-                                </td>
-                                <td class="px-6 py-4">
-                                    {{$game->description}}
                                 </td>
                                 <td class="px-6 py-4 ">
                                     <a href="{{route('game.edit', $game->id)}}" class="font-medium text-blue-600 hover:underline mr-2">Edit</a>
