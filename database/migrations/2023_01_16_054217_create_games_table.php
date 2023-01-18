@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description');
             $table->bigInteger('price');
             $table->boolean('status')->default(0);
+            $table->text('photo');
             $table->timestamps();
         });
     }

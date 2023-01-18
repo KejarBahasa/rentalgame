@@ -46,12 +46,19 @@ class GameController extends Controller
             'name' => 'required',
             'price' => 'required|numeric',
             'description' => 'required',
+            'photo' => 'required|mimes:png,jpg,jpeg'
         ]);
 
+        $fileName = 'Game-'.time().'.'.$request->photo->extension();  
+     
+        $request->photo->move(public_path('uploads'), $fileName);
+
         try {
-            Game::create($request->except('token'));
+            Game::create(array_merge($request->except('token', 'photo'), ['photo' => $fileName]));
+
             return redirect()->route('game.index')->with('success', 'Success added game account');
         } catch(Exception $e){
+            dd($e);
             return redirect()->route('game.index')->with('error', $e->getMessage());
         }
 
